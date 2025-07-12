@@ -1,23 +1,56 @@
+import { useState, useEffect } from "react";
+import { sessionAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import ButtonSignOut from "../components/ButtonSignOut";
 import Logo from "../assets/logo.svg";
 
 function HomePage() {
+  const { session } = sessionAuth();
+  const [userName, setUserName] = useState("");
+  const [logoutShow, setLogoutShow] = useState(false);
+
+  useEffect(() => {
+    if (session?.user.email === "nadames05@gmail.com") {
+      setUserName("Argenis");
+    }
+  }, [session]);
+
+  const handleClick = () => {
+    setLogoutShow(!logoutShow);
+  };
+
   return (
     <section className="min-h-screen bg-[#FFF5F3]">
       <header className="fixed top-0 left-0 z-50 w-full h-14 px-8 py-8 sm:px-32">
         <div className="flex justify-between items-center">
           <img src={Logo} className="w-40 sm:w-48" alt="Logo App" />
-          <Link
-            to={"/login"}
-            className="quaternaryColor text-md font-semibold text-white rounded-full px-6 py-2 sm:text-lg sm:tracking-wider sm:px-8 sm:py-3"
-          >
-            Sign In
-          </Link>
+          <div>
+            {session ? (
+              <div className="relative">
+                <h2
+                  onClick={handleClick}
+                  className="text-[#D9594C] cursor-default"
+                >
+                  <strong>Hola,</strong>
+                  {"  "}
+                  {userName}
+                </h2>
+                {logoutShow && <ButtonSignOut />}
+              </div>
+            ) : (
+              <Link
+                to={"/login"}
+                className="quaternaryColor text-md font-semibold text-white rounded-full px-5 py-2 sm:text-lg sm:tracking-wider sm:px-8 sm:py-3"
+              >
+                Sign In
+              </Link>
+            )}
+          </div>
         </div>
       </header>
 
       {/* hero */}
-      <div className="relative bg-[url('./assets/background.png')] bg-no-repeat bg-cover bg-center w-full h-screen flex items-center justify-center sm:bg-contain sm:bg-right">
+      <div className="relative bg-[url('./assets/background.png')] bg-no-repeat bg-cover bg-center w-full h-screen flex flex-col gap-8 items-center justify-center sm:bg-contain sm:bg-right">
         {/* Overlay con degradado */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#ff7a717c] to-[#555555] z-10"></div>
         <div className="w-full px-2 z-20 sm:max-w-[700px]">
@@ -29,7 +62,24 @@ function HomePage() {
             escapadas o simplemente una cita especial solo para ustedes dos.
           </p>
         </div>
-        <div>{/* mostrar contenido dinamico */}</div>
+
+        {/* contenido visible si usuario esta autenticado */}
+        {session && (
+          <div className="flex flex-col gap-4 items-center z-20 sm:flex-row">
+            <Link
+              to={"/reservation"}
+              className="bg-[#FF7A71] text-white rounded-full border-2 border-white uppercase font-semibold min-w-60 text-center py-3 text-lg"
+            >
+              Haz tu reserva
+            </Link>
+            <Link
+              to={"/reservationslisting"}
+              className="bg-white border-2 border-[#FF7A71] text-[#FF7A71] uppercase font-semibold rounded-full min-w-60 text-center py-3 text-lg"
+            >
+              Bandeja de reservas
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
