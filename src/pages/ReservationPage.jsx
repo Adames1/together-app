@@ -1,19 +1,50 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ModalConfirmed from "../components/ModalConfirmed";
-
+import toast from "react-hot-toast";
 import ButtonBack from "../components/ButtonBack";
 
 function ReservationPage() {
+  const [reservations, setReservations] = useState({
+    dateTime: "",
+    selectedPlan: "",
+    messages: "",
+  });
+
   const modal = useRef();
 
+  const dataTime = useRef();
+  const selectedPlan = useRef();
+  const messages = useRef();
+
   const handleSendReservation = () => {
-    modal.current.open();
-    return;
+    const enteredDateTime = dataTime.current.value;
+    const enteredseletedPlan = selectedPlan.current.value;
+    const enteredMessages = messages.current.value;
+
+    if (
+      enteredDateTime.trim() === "" ||
+      enteredseletedPlan.trim() === "" ||
+      enteredMessages.trim() == ""
+    ) {
+      toast.error("Todos los campos son requeridos");
+    } else {
+      setReservations({
+        dateTime: enteredDateTime,
+        selectedPlan: enteredseletedPlan,
+        messages: enteredMessages,
+      });
+      modal.current.open();
+    }
+
+    // limpiar campos cuando se envia formulario
+    dataTime.current.value = "";
+    selectedPlan.current.value = "";
+    messages.current.value = "";
   };
 
   return (
     <>
-      <ModalConfirmed ref={modal}>
+      <ModalConfirmed ref={modal} data={reservations}>
         <p className="text-[#FF7A71]">
           Confirma los datos de la cita y luego de click en "Confirmar", para
           finalizar la reserva o cancelar y volver a editar los datos de la cita
@@ -28,7 +59,7 @@ function ReservationPage() {
           {/* Overlay con degradado */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#ff7a717c] to-[#555555] z-10"></div>
 
-          <div className="bg-white/80 z-20 px-4 py-10 rounded-xl flex flex-col items-center justify-center shadow border-t-4 border-[#D9594C] max-w-2xs mt-8 sm:max-w-2xl">
+          <div className="bg-white/80 w-full z-20 px-4 py-10 rounded-xl flex flex-col items-center justify-center shadow border-t-4 border-[#D9594C] max-w-xs mt-8 sm:max-w-md">
             <h2 className="text-center text-md font-semibold text-[#D9594C] sm:text-lg">
               Reserva tu cita aquí
             </h2>
@@ -44,6 +75,7 @@ function ReservationPage() {
                   type="dateTime-local"
                   name="datetime"
                   id="inputDate"
+                  ref={dataTime}
                   className="bg-[#FFF5F3] rounded-full border-2 border-[#FF7A71] py-2 px-4 outline-none text-sm"
                 />
               </div>
@@ -57,6 +89,7 @@ function ReservationPage() {
                 <select
                   name="selectplan"
                   id="inputPlan"
+                  ref={selectedPlan}
                   className="bg-[#FFF5F3] rounded-full border-2 border-[#FF7A71] py-2 px-4 outline-none text-sm"
                 >
                   <option value="empty">Elige un plan</option>
@@ -70,11 +103,12 @@ function ReservationPage() {
                   htmlFor="inputMessage"
                   className="text-[#032930] text-md tracking-wide ml-3"
                 >
-                  Mensaje personalizado (opcional)
+                  Mensaje personalizado
                 </label>
                 <textarea
                   name="message"
                   id="inputMessage"
+                  ref={messages}
                   className="bg-[#FFF5F3] rounded-xl border-2 border-[#FF7A71] py-2 px-4 outline-none text-sm h-30"
                 />
               </div>

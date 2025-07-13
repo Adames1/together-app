@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     return () => {
-      subscription?.unsubscribe;
+      subscription?.unsubscribe();
     };
   }, []);
 
@@ -44,9 +44,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   // gestion de base de datos enviar y obtener datos
+  const insertData = async (data) => {
+    const { error } = await supabase.from("reservations").insert(data);
+    if (error) throw error;
+  };
 
   return (
-    <AuthContext.Provider value={{ session, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ session, loading, signIn, signOut, insertData }}
+    >
       {children}
     </AuthContext.Provider>
   );

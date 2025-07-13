@@ -1,7 +1,13 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
+import { sessionAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
-const ModalConfirmed = forwardRef(function ModalConfirmed({ children }, ref) {
+const ModalConfirmed = forwardRef(function ModalConfirmed(
+  { children, data },
+  ref
+) {
+  const { insertData } = sessionAuth();
   const dialog = useRef();
 
   useImperativeHandle(ref, () => {
@@ -15,8 +21,25 @@ const ModalConfirmed = forwardRef(function ModalConfirmed({ children }, ref) {
     };
   });
 
-  const handleSubmit = (e) => {
+  let contentData = {
+    date: data.dateTime,
+    title_plan: data.selectedPlan,
+    message: data.messages,
+    status: "pendiente",
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      await insertData(contentData);
+      toast.success("Datos guardados con exito");
+    } catch (error) {
+      toast.error("Error al guardar los datos");
+      console.error(error);
+    }
+
+    ref.current.close();
   };
 
   return createPortal(
@@ -29,15 +52,15 @@ const ModalConfirmed = forwardRef(function ModalConfirmed({ children }, ref) {
         <ul className="flex flex-col gap-2">
           <li className="flex flex-col gap-0.5">
             <strong className="text-gray-600">Fecha y Hora:</strong>{" "}
-            <span>07/07/2025 12:30 PM</span>
+            <span>{data.dateTime}</span>
           </li>
           <li className="flex flex-col gap-0.5">
             <strong className="text-gray-600">Actividad o tipo de plan:</strong>{" "}
-            <span>Plan1</span>
+            <span>{data.selectedPlan}</span>
           </li>
           <li className="flex flex-col gap-0.5">
             <strong className="text-gray-600">Mensaje:</strong>{" "}
-            <span>Aqui ira el mensaje</span>
+            <span>{data.messages}</span>
           </li>
         </ul>
       </div>
