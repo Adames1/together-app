@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // contexto para usuario login y logout
   useEffect(() => {
     const getSession = async () => {
       const {
@@ -41,6 +42,8 @@ export const AuthProvider = ({ children }) => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   };
+
+  // gestion de base de datos enviar y obtener datos
 
   return (
     <AuthContext.Provider value={{ session, loading, signIn, signOut }}>

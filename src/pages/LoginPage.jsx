@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { sessionAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ButtonBack from "../components/ButtonBack";
 
 import toast from "react-hot-toast";
-
-import { IoIosArrowBack } from "react-icons/io";
 
 function LoginPage() {
   const { signIn } = sessionAuth();
@@ -37,10 +36,7 @@ function LoginPage() {
   return (
     <section className="min-h-screen bg-[#FFF5F3]">
       <header className="fixed top-0 left-0 z-50 w-full h-14 px-8 py-8 sm:px-32">
-        <Link to={"/"} className="flex gap-1 items-center text-xl text-white">
-          <IoIosArrowBack className="text-2xl" />
-          Volver
-        </Link>
+        <ButtonBack />
       </header>
 
       <div className="relative bg-[url('./assets/background.png')] bg-no-repeat bg-cover bg-center w-full h-screen flex items-center justify-center sm:bg-contain sm:bg-right">
