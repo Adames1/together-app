@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
+import { users as predefinedUsers, users } from "../utils/users.js";
 
 const AppContext = createContext(null);
 
@@ -20,12 +21,12 @@ export const AppProvider = ({ children }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
     return () => {
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
@@ -43,8 +44,37 @@ export const AppProvider = ({ children }) => {
     if (error) throw error;
   };
 
+  const insertData = async (data) => {
+    const { error } = await supabase.from("reservations").insert([data]);
+    if (error) throw error;
+  };
+
+  const fetchData = async () => {
+    const { data, error } = await supabase.from("reservations").select();
+    if (error) throw error;
+    return data;
+  };
+
+  const currentUser = predefinedUsers.find(
+    (user) => user.id === session?.user.id
+  );
+  const receiverUser = predefinedUsers.find(
+    (user) => user.id !== session?.user.id
+  );
+
   return (
-    <AppContext.Provider value={{ loading, session, signIn, signOut }}>
+    <AppContext.Provider
+      value={{
+        loading,
+        session,
+        signIn,
+        signOut,
+        insertData,
+        fetchData,
+        currentUser,
+        receiverUser,
+      }}
+    >
       {" "}
       {children}{" "}
     </AppContext.Provider>
