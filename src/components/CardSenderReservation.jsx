@@ -1,6 +1,9 @@
-import { FaRegClock } from "react-icons/fa6";
+import { FaRegClock, FaCheck } from "react-icons/fa6";
+import { LiaTimesSolid } from "react-icons/lia";
 
 function CardSenderReservation({ id, item }) {
+  const { status } = item;
+
   return (
     <li key={id}>
       <div>
@@ -10,10 +13,24 @@ function CardSenderReservation({ id, item }) {
       <div>
         <p>{item.message}</p>
       </div>
-      <div>
-        <FaRegClock />
-        <h3>En espera de confirmacion</h3>
-      </div>
+      {status === "confirmed" && (
+        <div>
+          <FaCheck />
+          <h3>Su solicitud fue aceptada</h3>
+        </div>
+      )}
+      {status === "declined" && (
+        <div>
+          <LiaTimesSolid />
+          <h3>Su solicitud fue rechazada</h3>
+        </div>
+      )}
+      {status === "pending" && (
+        <div>
+          <FaRegClock />
+          <h3>En espera de confirmacion</h3>
+        </div>
+      )}
     </li>
   );
 }

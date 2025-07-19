@@ -7,7 +7,7 @@ import CardSenderReservation from "../components/CardSenderReservation";
 import CardReceiverReservation from "../components/CardReceiverReservation";
 
 function HomePage() {
-  const { fetchData, session, currentUser, receiverUser } = appConsumer();
+  const { fetchData, session } = appConsumer();
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function HomePage() {
                     <CardReceiverReservation
                       key={index}
                       item={item}
-                      id={index}
+                      id={item.id}
                     />
                   );
                 } else {

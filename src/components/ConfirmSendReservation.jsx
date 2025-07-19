@@ -2,7 +2,7 @@ import { appConsumer } from "../context/AppContext";
 import toast from "react-hot-toast";
 
 function ConfirmSendReservation({ onCancel, data }) {
-  const { insertData, session, currentUser, receiverUser } = appConsumer();
+  const { insertData, receiverUser } = appConsumer();
 
   const { enteredDatePlan, enteredNamePlan, enteredMessage } = data;
 
@@ -14,6 +14,7 @@ function ConfirmSendReservation({ onCancel, data }) {
         message: enteredMessage,
         status: "pending",
         receiver_id: receiverUser?.id,
+        user_id: receiverUser?.id,
       });
 
       console.log("Reserva realizada con éxito");

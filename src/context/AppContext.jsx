@@ -55,6 +55,15 @@ export const AppProvider = ({ children }) => {
     return data;
   };
 
+  const updateData = async (id, status) => {
+    const { error } = await supabase
+      .from("reservations")
+      .update({ status: `${status}` })
+      .eq("id", id);
+
+    if (error) throw error;
+  };
+
   const currentUser = predefinedUsers.find(
     (user) => user.id === session?.user.id
   );
@@ -71,6 +80,7 @@ export const AppProvider = ({ children }) => {
         signOut,
         insertData,
         fetchData,
+        updateData,
         currentUser,
         receiverUser,
       }}
