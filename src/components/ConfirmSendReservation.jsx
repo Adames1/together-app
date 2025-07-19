@@ -1,10 +1,13 @@
 import { appConsumer } from "../context/AppContext";
+import { formatDate } from "../utils/formattedDateTime";
 import toast from "react-hot-toast";
 
 function ConfirmSendReservation({ onCancel, data }) {
   const { insertData, receiverUser } = appConsumer();
 
   const { enteredDatePlan, enteredNamePlan, enteredMessage } = data;
+
+  const date = formatDate(enteredDatePlan);
 
   const handleConfirmSend = async () => {
     try {
@@ -17,32 +20,49 @@ function ConfirmSendReservation({ onCancel, data }) {
         user_id: receiverUser?.id,
       });
 
-      console.log("Reserva realizada con éxito");
+      toast.success("Reserva realizada con éxito");
       onCancel();
     } catch (error) {
-      console.error(error.message);
+      toast.error(error.message);
     }
   };
 
   return (
-    <div>
-      <h2>Confirma los datos antes de enviar la reservacion.</h2>
-      <div>
-        <h3>
-          <strong>Fecha & Hora de plan:</strong> {enteredDatePlan}
-        </h3>
-        <h3>
-          <strong>Plan seleccionado:</strong> {enteredNamePlan}
-        </h3>
-        <h3>
-          <strong>Detalles del plan:</strong> {enteredMessage}
-        </h3>
+    <div className="flex flex-col space-y-6 p-4 max-w-md mx-auto text-[#5F5050]">
+      <h2 className="text-xl font-semibold text-center">
+        Confirma los datos antes de enviar la reservación
+      </h2>
+
+      <div className="space-y-3 bg-[#FFE5E5] rounded-xl p-4 border border-[#FFDADA] shadow-sm">
+        <p>
+          <strong>Fecha & Hora de plan:</strong>{" "}
+          <span className="font-medium">{date}</span>
+        </p>
+        <p>
+          <strong>Plan seleccionado:</strong>{" "}
+          <span className="font-medium capitalize">{enteredNamePlan}</span>
+        </p>
+        <p>
+          <strong>Detalles del plan:</strong>{" "}
+          <span className="font-medium whitespace-pre-wrap">
+            {enteredMessage}
+          </span>
+        </p>
       </div>
-      <div>
-        <button type="button" onClick={handleConfirmSend}>
+
+      <div className="flex justify-center gap-6">
+        <button
+          type="button"
+          onClick={handleConfirmSend}
+          className="bg-[#FF8B8D] hover:bg-[#ff6b6d] text-white font-semibold py-2 px-6 rounded-xl shadow-md transition"
+        >
           Confirmar
         </button>
-        <button type="button" onClick={onCancel}>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-6 rounded-xl transition"
+        >
           Cancelar
         </button>
       </div>

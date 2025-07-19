@@ -47,20 +47,24 @@ function LoginPage() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#FFA6A7] to-[#FFFFFF] flex items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-8 bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-xl">
-        <div className="flex flex-col items-center space-y-2">
-          <img src={logo} alt="Logo Page" className="w-20" />
-          <h1 className="text-xl font-semibold text-[#5F5050] tracking-wide">
+    <section className="min-h-screen bg-gradient-to-b from-[#FFA6A7] to-white flex items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+      <div className="w-full max-w-sm sm:max-w-md bg-white/80 backdrop-blur-xl p-8 sm:p-10 rounded-3xl shadow-2xl space-y-8">
+        <div className="flex flex-col items-center space-y-3">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-16 sm:w-20 h-16 sm:h-20 object-contain"
+          />
+          <h1 className="text-xl sm:text-2xl font-bold text-[#5F5050]">
             Iniciar sesión
           </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-1">
             <label
               htmlFor="email"
-              className="block text-sm text-[#5F5050] mb-1 ml-2"
+              className="text-sm font-medium text-[#5F5050]"
             >
               Correo electrónico
             </label>
@@ -70,15 +74,15 @@ function LoginPage() {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-full bg-[#FFCCCC] text-[#5F5050] border border-white focus:outline-none focus:ring-2 focus:ring-[#FF8B8D]"
               required
+              className="w-full px-4 py-3 rounded-xl bg-[#FFE5E5] text-[#5F5050] placeholder:text-[#A37C7C] border border-[#FFDADA] focus:outline-none focus:ring-2 focus:ring-[#FF8B8D] transition"
             />
           </div>
 
-          <div>
+          <div className="space-y-1">
             <label
               htmlFor="password"
-              className="block text-sm text-[#5F5050] mb-1 ml-2"
+              className="text-sm font-medium text-[#5F5050]"
             >
               Contraseña
             </label>
@@ -88,15 +92,15 @@ function LoginPage() {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-full bg-[#FFCCCC] text-[#5F5050] border border-white focus:outline-none focus:ring-2 focus:ring-[#FF8B8D]"
               required
+              className="w-full px-4 py-3 rounded-xl bg-[#FFE5E5] text-[#5F5050] placeholder:text-[#A37C7C] border border-[#FFDADA] focus:outline-none focus:ring-2 focus:ring-[#FF8B8D] transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-full text-white bg-[#FF8B8D] hover:bg-[#ff7375] transition font-semibold tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3 rounded-xl bg-[#FF8B8D] text-white font-semibold tracking-wide hover:bg-[#ff6b6d] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Cargando..." : "Entrar"}
           </button>
