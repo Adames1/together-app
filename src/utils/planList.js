@@ -10,6 +10,7 @@ export const couplePlans = [
   { value: "Sesión de fotos" },
   { value: "Ver el atardecer" },
   { value: "Escapada de fin de semana" },
+  { value: "Escapada nocturna" },
   { value: "Ir al teatro" },
   { value: "Clases de baile" },
   { value: "Tarde de juegos de mesa" },
