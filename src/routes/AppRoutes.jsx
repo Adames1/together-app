@@ -1,19 +1,15 @@
-import { Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import ReservationFormPage from "../pages/ReservationFormPage";
-import ProtectedRoutes from "../components/ProtectedRoutes";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "../pages/Login";
+import Home from "../pages/Home";
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route element={<ProtectedRoutes />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create-reservation" element={<ReservationFormPage />} />
-      </Route>
-
-      <Route path="/login" element={<LoginPage />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
