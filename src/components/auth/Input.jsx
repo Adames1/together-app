@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, KeyRound, Eye, EyeOff } from "lucide-react";
 
-function Input({ label, type, placeholder, id }) {
+function Input({ label, type, placeholder, id, value, onChange }) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
@@ -28,6 +28,8 @@ function Input({ label, type, placeholder, id }) {
           type={inputType}
           id={id}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
           className="flex-1 min-w-0 text-sm text-slate-700 placeholder:text-slate-400 outline-none"
         />
         {isPassword && (
