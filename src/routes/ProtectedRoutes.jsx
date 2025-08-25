@@ -1,10 +1,11 @@
 import { useAuth } from "../hooks/useAuth";
 import { Outlet, Navigate } from "react-router-dom";
+import Loading from "../components/loader/Loading";
 
 function ProtectedRoutes() {
   const { user, loading } = useAuth();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (!user) {
     return <Navigate to="/login" replace />;
   }

@@ -73,7 +73,7 @@ function Login() {
 
           <Button type="submit" loading={loading}>
             {loading ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 <Loader2Icon size={22} className="animate-spin" />
                 Entrando...
               </span>
