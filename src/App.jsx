@@ -1,14 +1,7 @@
-import AppRoutes from "./routes/AppRoutes";
-import { AuthProvider } from "./context/AuthContext";
-import { ToastContainer } from "react-toastify";
+import React from "react";
 
 function App() {
-  return (
-    <AuthProvider>
-      <ToastContainer />
-      <AppRoutes />
-    </AuthProvider>
-  );
+  return <div>App</div>;
 }
 
 export default App;
